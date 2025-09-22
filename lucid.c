@@ -1,8 +1,10 @@
 #include "lucid.h"
+#include <stddef.h>
 #include <stdlib.h>
-#include
+#include <string.h>
 
-int Lucid_Allocate_Memory(unsigned long size, void** out_pointer) {
+int Lucid_Allocate_Memory(unsigned long size, void** out_pointer)
+{
     size_t alloc_size;
     void*  alloc_result_pointer;
     if (out_pointer == NULL || size == 0UL) {
@@ -13,24 +15,26 @@ int Lucid_Allocate_Memory(unsigned long size, void** out_pointer) {
         *out_pointer = NULL;
         return LUCID_FAILURE;
     }
-    
+
     alloc_result_pointer = malloc(alloc_size);
     if (alloc_result_pointer == NULL) {
         *out_pointer = NULL;
-        return LUCID_ERROR;
+        return LUCID_FAILURE;
     }
     *out_pointer = alloc_result_pointer;
-    return LUCID_SUCCESS
+    return LUCID_SUCCESS;
 }
 
-int Lucid_Free_Memory(void* pointer) {
+int Lucid_Free_Memory(void* pointer)
+{
     free(pointer);
     return LUCID_SUCCESS;
 }
 
-int Lucid_Reallocate_Memory(unsigned long new_size, void **in_out_pointer) {
-    size_t new_alloc_size_ts;
-    void*  reallocation_result_pointer;
+int Lucid_Reallocate_Memory(unsigned long new_size, void** in_out_pointer)
+{
+    size_t alloc_size;
+    void*  realloc_result_pointer;
     if (in_out_pointer == NULL) {
         return LUCID_FAILURE;
     }
@@ -49,7 +53,8 @@ int Lucid_Reallocate_Memory(unsigned long new_size, void **in_out_pointer) {
     return LUCID_SUCCESS;
 }
 
-int Lucid_Memory_Copy(void* destination, void* source, unsigned long byte_count) {
+int Lucid_Memory_Copy(void* destination, void* source, unsigned long byte_count)
+{
     size_t        bytes_to_copy;
     unsigned long requested_byte_count;
     requested_byte_count = byte_count;
@@ -63,6 +68,6 @@ int Lucid_Memory_Copy(void* destination, void* source, unsigned long byte_count)
     if ((unsigned long)bytes_to_copy != requested_byte_count) {
         return LUCID_FAILURE;
     }
-    memcopy(destination, source, bytes_to_copy_ts);
+    memcpy(destination, source, bytes_to_copy);
     return LUCID_SUCCESS;
 }
